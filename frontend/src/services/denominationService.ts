@@ -1,4 +1,5 @@
 import type {DenominationResponse} from '../types/denomination'
+import type {ErrorResponse} from '../types/ErrorResponse'
 
 /**
  * Sends a POST request to the backend to calculate the denomination for the provided amounts
@@ -15,7 +16,13 @@ export async function handleDenominationRequest(currentAmount: number, previousA
     });
 
     if (!response.ok) {
-        throw new Error('Die Berechnung der Stückelung ist fehlgeschlagen');
+        let errorMessage = `Die Berechnung der Stückelung ist fehlgeschlagen: ${response.status} - ${response.statusText}`;
+        try {
+            const errorResponse: ErrorResponse = await response.json();
+            errorMessage = `${errorResponse.error} - ${errorResponse.errorDetails}`
+        } catch { /* empty */
+        }
+        throw new Error(errorMessage);
     }
     return response.json();
 }

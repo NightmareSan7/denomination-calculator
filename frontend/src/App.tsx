@@ -34,7 +34,7 @@ function App() {
             setRows(response.denominations)
             setDiffRows(response.differences)
         } catch (error) {
-            alert(error instanceof Error ? error.message : 'Ein Unbekannter Fehler ist aufgetreten');
+            alert(error instanceof Error ? error.message : 'Ein unbekannter Fehler ist aufgetreten');
         }
 
     }
